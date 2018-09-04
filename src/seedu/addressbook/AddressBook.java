@@ -90,6 +90,7 @@ public class AddressBook {
     private static final String MESSAGE_STORAGE_FILE_CREATED = "Created new empty storage file: %1$s";
     private static final String MESSAGE_WELCOME = "Welcome to your Address Book!";
     private static final String MESSAGE_USING_DEFAULT_FILE = "Using default storage file : " + DEFAULT_STORAGE_FILEPATH;
+    private static final String MESSAGE_SORTED = "Sorted!";
 
     // These are the prefix strings to define the data type of a command parameter
     private static final String PERSON_DATA_PREFIX_PHONE = "p/";
@@ -98,6 +99,7 @@ public class AddressBook {
     private static final String PERSON_STRING_REPRESENTATION = "%1$s " // name
                                                             + PERSON_DATA_PREFIX_PHONE + "%2$s " // phone
                                                             + PERSON_DATA_PREFIX_EMAIL + "%3$s"; // email
+    private static final String COMMAND_SORT = "sort";
     private static final String COMMAND_ADD_WORD = "add";
     private static final String COMMAND_ADD_DESC = "Adds a person to the address book.";
     private static final String COMMAND_ADD_PARAMETERS = "NAME "
@@ -381,6 +383,8 @@ public class AddressBook {
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
+        case COMMAND_SORT;
+            return executeSort();
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
         default:
@@ -406,6 +410,20 @@ public class AddressBook {
      */
     private static String getMessageForInvalidCommandInput(String userCommand, String correctUsageInfo) {
         return String.format(MESSAGE_INVALID_COMMAND_FORMAT, userCommand, correctUsageInfo);
+    }
+
+    /**
+     * Sorts the names in the addresss book based on alphabetical order.
+     *
+     * @return feedback display message for the operation result
+     */
+    private static String executeSort() {
+    	Collections.sort(ALL_PERSONS, new Comparator < String[] > () {
+    		public int compare(String[] strings, String[] otherStrings) {
+    			return strings[0].compareTo(otherStrings[0]);
+    		}
+    	});
+    	returns MESSAGE_SORTED;
     }
 
     /**
